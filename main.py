@@ -9,6 +9,19 @@ def fetchWords():
 
     return lines
 
+def compare_strings(a, correct_word):
+    out = ""
+    if len(a) == 5:
+        for i in range(5):
+            if a[i] in correct_word:
+                if a[i] == correct_word[i]:
+                    out += correct_word[i]
+                else:
+                    out += a[i]
+    return out
+
+
+
 
 def main():
     start_menu_running = True
@@ -36,6 +49,29 @@ def main():
 
     for i in alphabet_array:
         print(i +" ", end="")
+    print(correct_word)
+    playing = True
+    turn = 0
+
+    while playing:
+        guess = input("type your guess:")
+
+        if not len(guess) == 5:
+            print("the length of your guess needs to be 5 letters. No more no less.")
+            playing = True
+
+        if guess == correct_word:
+            print("You win!")
+            playing = False
+
+        print(compare_strings(guess, correct_word))
+
+
+
+
+
+
+
 
 
 
