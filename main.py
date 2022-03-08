@@ -9,16 +9,22 @@ def fetchWords():
 
     return lines
 
-def compare_strings(a, correct_word):
-    out = ""
+def compare_strings(a, correct):
+    location_out = "Letters in correct location: "
+    letter_out = "Letters in word but not in correct location: "
+    correct_location = "correct spot "
+    correct_letter = "correct letter "
     if len(a) == 5:
         for i in range(5):
-            if a[i] in correct_word:
-                if a[i] == correct_word[i]:
-                    out += correct_word[i]
+            if a[i] in correct:
+                if a[i] == correct[i]:
+                    location_out += a[i]
                 else:
-                    out += a[i]
-    return out
+                    letter_out += a[i]
+
+
+    output = location_out + "\n" + letter_out
+    return output
 
 
 
@@ -42,29 +48,73 @@ def main():
 
     words = fetchWords()
     correct_word = words[random.randint(0, 12972)]
-    output_array = [[[] for i in range(5)] for j in range(6)]
+    correct_array = list(correct_word)
+    #correct_word = "duals"
+    #correct_array = list(correct_word)
+    output_array = [["" for i in range(5)] for j in range(6)]
     alphabet_array = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q','r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    for row in output_array:
-        print(row)
 
-    for i in alphabet_array:
-        print(i +" ", end="")
-    print(correct_word)
     playing = True
     turn = 0
 
-    while playing:
-        guess = input("type your guess:")
+    while playing and turn < 7:
+        print("\n------------------------\n")
+        for row in output_array:
+            print(row)
+
+        for i in alphabet_array:
+            print(i + " ", end="")
+        print(correct_word)
+        print("type your guess: ")
+        guess = input().strip("\n")
+
+
+        print(guess)
+        print(correct_word)
+        print(list(guess))
+        print(list(correct_word))
+
+        if list(guess) == list(correct_word):
+            print("You win!")
+            sys.exit()
+
+        if guess == "adieu":
+            print("----------------------------------------------------------------------")
+            adieu = input("\n|Hello Lyndey. did you think I didnt know your starting word? how cute...\n hehe love you press anything to continue")
+            print("----------------------------------------------------------------------")
+
+
+        guess_array = list(guess)
+        for letter in guess_array:
+            if letter not in correct_array and letter in alphabet_array:
+                alphabet_array.remove(letter)
+
+
 
         if not len(guess) == 5:
             print("the length of your guess needs to be 5 letters. No more no less.")
             playing = True
 
-        if guess == correct_word:
-            print("You win!")
-            playing = False
 
-        print(compare_strings(guess, correct_word))
+
+
+
+
+        print("\n" + compare_strings(guess, correct_word))
+        turn +=1
+
+        output_array[turn - 1][0] += guess[0]
+        output_array[turn - 1][1] += guess[1]
+        output_array[turn - 1][2] += guess[2]
+        output_array[turn - 1][3] += guess[3]
+        output_array[turn - 1][4] += guess[4]
+        if turn == 5:
+            print(correct_word)
+            playing = False
+    print("Bummer! You werent able to guess the worldle. play again?")
+
+
+
 
 
 
